@@ -1,0 +1,401 @@
+<!Doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="JS">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+    rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/style.css">
+
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="sign-in">
+      <h1>EXPENSE TRACKER</h1>
+      <div class="google-btn" id="login">
+        <div class="google-icon-wrapper">
+          <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
+        </div>
+        <p class="btn-text"><b>Sign in with google</b></p>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+
+          <input type="email" class="form-control" id="email-in" aria-describedby="emailHelp" placeholder="Enter email">
+
+        </div>
+        <div class="form-group">
+
+          <input type="password" class="form-control" id="pass-in" placeholder="Password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="login-user">Submit</button>
+      </form>
+
+
+      <form id="register-form" class="register-form">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="email-reg" aria-describedby="emailHelp"
+            placeholder="Enter email">
+          
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="pass-reg" placeholder="Password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="signup-new">Submit</button>
+      </form>
+
+      <!-- <div class="email-register">
+        <input type="text" name="" id="email-reg">
+        <input type="text" name="" id="pass-reg">
+        <button id="signup-new">SIGN UP</button>
+      </div> -->
+
+      <!-- <div class="email-signin">
+        <input type="text" name="" id="email-in">
+        <input type="text" name="" id="pass-in">
+        <button id="login-user">SIGN IN</button>
+      </div> -->
+      <div class="reset-pass-toggle" id="reset-pass-toggle">
+        <a id="reset-passBtn">Reset Password</a>
+      </div>
+
+
+      <div id="reset-input-email" class="reset-input-email">
+        <form>
+          <div class="form-group">
+
+            <input type="email" class="form-control reset-email" id="reset-email" aria-describedby="emailHelp"
+              placeholder="Enter email">
+          </div>
+          <button type="submit" class="btn btn-primary" id="reset-pass">Reset Password</button>
+        </form>
+      </div>
+      <!-- <div class="resetpass">
+        <button id="reset-pass">Reset Password</button>
+      </div> -->
+
+      <div class="cr-acc" id="cr-acc">
+        <a id="create-acc">Create an Account</a>
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="logo">
+      <img src="logo.jpg" alt="" srcset="">
+    </div>
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="main.js"></script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js";
+    import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAOVz0RrZxUkGTTl0uKsj2y-1QHd2lodFo",
+      authDomain: "auth-a8f4a.firebaseapp.com",
+      projectId: "auth-a8f4a",
+      storageBucket: "auth-a8f4a.appspot.com",
+      messagingSenderId: "994923776387",
+      appId: "1:994923776387:web:64ade0a1d1b92a1d08ceb6",
+      measurementId: "G-3K7WSVVQSM"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider(app);
+
+    login.addEventListener("click", function (e) {
+      //     getRedirectResult(auth)
+      // .then((result) => {
+      //   // This gives you a Google Access Token. You can use it to access Google APIs.
+      //   const credential = GoogleAuthProvider.credentialFromResult(result);
+      //   const token = credential.accessToken;
+
+      //   // The signed-in user info.
+      //   const user = result.user;
+      //   // IdP data available using getAdditionalUserInfo(result)
+      //   // ...
+      //   location.href="index-expense.html";
+      // }).catch((error) => {
+      //   // Handle Errors here.
+      //   const errorCode = error.code;
+      //   const errorMessage = error.message;
+      //   // The email of the user's account used.
+      //   const email = error.customData.email;
+      //   // The AuthCredential type that was used.
+      //   const credential = GoogleAuthProvider.credentialFromError(error);
+      //   // ...
+
+      // });
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          // IdP data available using getAdditionalUserInfo(result)
+          // ...
+          alert(user.displayName);
+          console.log("sucess");
+          location.href = "index-expense.html";
+        }).catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.customData.email;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+          alert(errorMessage);
+          console.log("failed");
+
+
+        });
+    });
+
+
+    let signupNew = document.getElementById("signup-new");
+    signupNew.addEventListener("click", function () {
+
+
+      var emailReg = document.getElementById("email-reg").value;
+      var passReg = document.getElementById("pass-reg").value;
+      //For new registration
+      createUserWithEmailAndPassword(auth, emailReg, passReg)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          console.log(user);
+          alert("Registration successfully!!");
+          
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+          console.log(errorMessage);
+          alert(error);
+        });
+
+    })
+    document.getElementById("login-user").addEventListener("click", function (e) {
+      var emailLog = document.getElementById("email-in").value;
+      var passLog = document.getElementById("pass-in").value;
+e.preventDefault();
+      signInWithEmailAndPassword(auth, emailLog, passLog)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          console.log(user);
+          alert(user.email + " Login successfully!!!");
+          document.getElementById('logout').style.display = 'block';
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage);
+          alert(errorMessage);
+        });
+    });
+
+    document.getElementById("reset-pass").addEventListener("click", function (e) {
+
+      e.preventDefault();
+      document.getElementById("login-form").style.display = "none";
+      document.getElementById("reset-email").style.display = "block";
+      document.getElementsByClassName("cr-acc")[0].style.display = "block";
+      var emailForgot = document.getElementById("reset-email").value;
+      
+      
+      sendPasswordResetEmail(auth, emailForgot).then(() => {
+        window.alert("password reset email has been sent")
+        document.getElementById("login-form").style.display = "block";
+        document.getElementById("reset-input-email").style.display = "none";
+      
+      }).catch(() => {
+        console.log("error reset")
+        document.getElementById("login-form").style.display = "block";
+        document.getElementById("reset-input-email").style.display = "none";
+       
+        
+      })
+    })
+
+
+    //reset BTN
+document.getElementById("reset-passBtn").addEventListener("click",function(){
+  document.getElementById("reset-input-email").style.display="block";
+  document.getElementById("login-form").style.display = "none";
+  document.getElementsByClassName("cr-acc")[0].style.display = "none";
+  
+}
+)
+
+// ----------------------create account--------------
+document.getElementById("create-acc").addEventListener("click",function(){
+  document.getElementById("login-form").style.display = "none";
+  document.getElementById("register-form").style.display = "block";
+  document.getElementById("reset-pass-toggle").style.display="none";
+})
+
+    ///-------------------phone no  OTP-------------------------------
+
+    // window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+    //   'size': 'invisible',
+    //   'callback': function (response) {
+    //     // reCAPTCHA solved, allow signInWithPhoneNumber.
+    //     onSignInSubmit();
+    //   }
+    // });
+
+    // document.getElementById("send-otp").addEventListener("click", function () {
+
+    //   var phNumber = document.getElementById('phone-no').value;
+    //   console.log(phNumber)
+    //   signInWithPhoneNumber(phNumber, window.recaptchaVerifier).then(function (confirmationResult) {
+    //     window.confirmationResult = confirmationResult;
+    //     coderesult = confirmationResult;
+
+    //   }).catch(function (error) {
+    //     alert(error.message);
+    //     console.log("failed")
+    //   });
+
+    // })
+    // function for code verify
+
+    // document.getElementById("verify-otp").addEventListener("click", function () {
+
+    //   var code = document.getElementById('otp').value;
+    //   coderesult.confirm(code).then(function () {
+    //     document.getElementsByClassName('p-conf')[0].style.display = 'block';
+    //     document.getElementsByClassName('n-conf')[0].style.display = 'none';
+    //   }).catch(function () {
+    //     document.getElementsByClassName('p-conf')[0].style.display = 'none';
+    //     document.getElementsByClassName('n-conf')[0].style.display = 'block';
+    //   })
+
+    // })
+
+
+    // firebase.initializeApp(firebaseConfig);
+    // submitPhoneNumberAuth()
+    //when the captcha is verified
+//     window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+//       'size': 'normal',
+//       'callback': (response) => {
+//         // reCAPTCHA solved, allow signInWithPhoneNumber.
+//         // ...
+//       },
+//       'expired-callback': () => {
+//         // Response expired. Ask user to solve reCAPTCHA again.
+//         // ...
+//       }
+//     }, auth);
+//     document.getElementById("sign-in-button").addEventListener("click", function () {
+
+//       var phoneNumbe = document.getElementById("phoneNumber").value;
+//       console.log(phoneNumbe)
+//       //const phoneNumber = getPhoneNumberFromUserInput();
+// const appVerifier = window.recaptchaVerifier;
+//       const auth = getAuth();
+//       signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+//         .then((confirmationResult) => {
+//           // SMS sent. Prompt user to type the code from the message, then sign the
+//           // user in with confirmationResult.confirm(code).
+//           window.confirmationResult = confirmationResult;
+//           // ...
+//         }).catch((error) => {
+//           // Error; SMS not sent
+//           // ...
+//           console.log(error)
+//         });
+
+//     })
+//     // document.getElementById("confirm-code").addEventListener("click", function () {
+
+    //  // const code = getCodeFromUserInput();
+    //   confirmationResult.confirm(code).then((result) => {
+    //     // User signed in successfully.
+    //     const user = result.user;
+    //     // ...
+    //     console.log(result)
+    //   }).catch((error) => {
+    //     // User couldn't sign in (bad verification code?)
+    //     // ...
+    //     console.log(error)
+    //   });
+    // })
+
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
