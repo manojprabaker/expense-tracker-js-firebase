@@ -204,7 +204,9 @@
           const user = userCredential.user;
           console.log(user);
           alert("Registration successfully!!");
-         
+         document.getElementById("register-form").style.display="none";
+         document.getElementById("login-form").style.display="block";
+         document.getElementById("reset-pass-toggle").style.display="block";
           // ...
         })
         .catch((error) => {
